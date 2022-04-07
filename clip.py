@@ -35,7 +35,6 @@ def add_property(gdf, filter_name):
     gdf = deepcopy(gdf)
     if filter_name in Filter.COLOR:
         gdf['fill'] = Filter.COLOR[filter_name]
-        # gdf['fill-opacity'] = 1
     if filter_name in Filter.BORDER_PROPERTIES:
         for prop_name, prop_value in Filter.BORDER_PROPERTIES[filter_name].items():
             gdf[prop_name] = prop_value
@@ -50,6 +49,6 @@ if __name__ == '__main__':
         fields_js = json.load(file)
 
     with open('geojsons/filter.geojson', 'w') as file:
-        new_json = get_total_gjs(cadasters_js, fields_js, 'border_cad', 'border_field', 'entry', 'capture', 'unused', 'field')
+        new_json = get_total_gjs(cadasters_js, fields_js, 'border_field', 'entry', 'capture', 'unused')
         json.dump(new_json, file, indent=4)
 
