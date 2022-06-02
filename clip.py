@@ -11,6 +11,9 @@ def get_total_gjs(cadasters_js, fields_js, *filters):
         fields = gpd.GeoDataFrame.from_features(fields_js)
     except TypeError:
         return -1
+
+    fields = drop_columns(fields, 'Settings')
+
     main_tables = {Filter.CADASTRE: cadasters, Filter.FIELD: fields, Filter.BORDER_FIELD: fields, Filter.BORDER_CAD: cadasters}
     arr_map = []
     for filter_name in filters:
@@ -41,14 +44,21 @@ def add_property(gdf, filter_name):
     return gdf
 
 
+def drop_columns(df, *columns):
+    for column in columns:
+        if column in df.columns.to_list():
+            df = df.drop(column, axis=1)
+    return df
+
+
 if __name__ == '__main__':
-    with open('geojsons/Кадастры.geojson') as file:
+    with open('geojsons/Кадастры.geojson', encoding='utf-8') as file:
         cadasters_js = json.load(file)
 
-    with open('geojsons/Поля.geojson') as file:
+    with open('geojsons/Поля.geojson', encoding='utf-8') as file:
         fields_js = json.load(file)
 
-    with open('geojsons/filter.geojson', 'w') as file:
+    with open('geojsons/example.geojson', 'w', encoding='utf-8') as file:
         new_json = get_total_gjs(cadasters_js, fields_js, 'border_field', 'entry', 'capture', 'unused')
         json.dump(new_json, file, indent=4)
 

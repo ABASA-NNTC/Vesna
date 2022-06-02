@@ -11,12 +11,8 @@ api = Api(app)
 
 class Geos(Resource):
     def get(self):
-        file_js = request.files['filejson']
-        print(request.args.get('filejson'))
-        print(request.data)
-        print(request.date)
-        print(request.content_type)
-        print(file_js.content_type)
+        jsonData = request.get_json()
+        print(jsonData)
 
     def post(self):
         file = request.files['filejson']
@@ -27,5 +23,5 @@ api.add_resource(Geos, '/geo')
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001)
+    app.run(port=5000)
 
